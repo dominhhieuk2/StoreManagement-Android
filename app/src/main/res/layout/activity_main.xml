@@ -7,81 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
 
-        <EditText
-            android:id="@+id/editTextUserId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="User ID"
-            android:inputType="number" />
-
-        <EditText
-            android:id="@+id/editTextUserName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="User Name" />
-
-        <EditText
-            android:id="@+id/editTextPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password" />
-
-        <EditText
-            android:id="@+id/editTextAccountName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Account Name" />
-
-        <EditText
-            android:id="@+id/editTextAvatar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Avatar" />
-
-        <EditText
-            android:id="@+id/editTextAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Address" />
-
-        <EditText
-            android:id="@+id/editTextPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Phone" />
-
-        <EditText
-            android:id="@+id/editTextUserStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="User Status (1 or 0)"
-            android:inputType="number" />
-
-        <EditText
-            android:id="@+id/editTextRoleId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Role ID"
-            android:inputType="number" />
-
-        <Button
-            android:id="@+id/buttonCreate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Create User" />
-
-        <TextView
-            android:id="@+id/textViewResult"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp" />
-
-    </LinearLayout>
-
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello world"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
