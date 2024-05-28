@@ -55,4 +55,38 @@ public class UserDAO {
             }
         }
     }
+
+    public boolean updateUser(User user) {
+        ContentValues values = new ContentValues();
+        values.put("Password", user.getPassword());
+        values.put("AccountName", user.getAccountName());
+        values.put("Avatar", user.getAvatar());
+        values.put("Address", user.getAddress());
+        values.put("Phone", user.getPhone());
+        values.put("UserStatus", user.isUserStatus());
+        values.put("RoleID", user.getRoleID());
+
+        int rowsAffected = database.update("Users", values, "UserName = ?", new String[]{user.getUserName()});
+        return rowsAffected > 0;
+    }
+
+    public User getUserByUsername(String username) {
+        Cursor cursor = database.query("Users", null, "UserName = ?", new String[]{username}, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            User user = new User(
+                    cursor.getString(cursor.getColumnIndexOrThrow("UserName")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("Password")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("AccountName")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("Avatar")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("Address")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("Phone")),
+                    cursor.getInt(cursor.getColumnIndexOrThrow("UserStatus")) > 0,
+                    cursor.getInt(cursor.getColumnIndexOrThrow("RoleID"))
+            );
+            cursor.close();
+            return user;
+        }
+        return null;
+    }
+
 }

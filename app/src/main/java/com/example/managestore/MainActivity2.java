@@ -8,10 +8,13 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 
+import com.example.managestore.ui.profile.ProfileFragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -50,7 +53,7 @@ public class MainActivity2 extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_profile, R.id.nav_logout)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -70,27 +73,7 @@ public class MainActivity2 extends AppCompatActivity {
         welcomeText.setText("Welcome back,");
         userText.setText(username);
 
-        // Thiết lập sự kiện cho NavigationView
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
-                if (id == R.id.nav_logout) {
-                    // Xóa thông tin đăng nhập khỏi SharedPreferences
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.clear();
-                    editor.apply();
 
-                    // Quay lại màn hình đăng nhập
-                    Intent intent = new Intent(MainActivity2.this, LoginActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish(); // Đóng MainActivity2
-                    return true;
-                }
-                return NavigationUI.onNavDestinationSelected(item, navController) || MainActivity2.super.onOptionsItemSelected(item);
-            }
-        });
     }
 
     @Override
