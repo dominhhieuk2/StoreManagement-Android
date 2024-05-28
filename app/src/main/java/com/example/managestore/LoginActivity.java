@@ -1,5 +1,6 @@
 package com.example.managestore;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -45,8 +46,15 @@ public class LoginActivity extends AppCompatActivity {
                 if (!usernameStr.isEmpty() && !passwordStr.isEmpty()){
                     if (userDAO.checkUser(usernameStr,passwordStr)) {
                         Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
+                        SharedPreferences sharedPreferences = getSharedPreferences("userSession", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("username", usernameStr);
+                        editor.apply();
+
+                        Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
                         startActivity(intent);
+                        finish();
                     } else {
                         Toast.makeText(LoginActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
                     }
