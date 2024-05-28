@@ -89,4 +89,11 @@ public class UserDAO {
         return null;
     }
 
+    public boolean updatePassword(String username, String newPassword) {
+        ContentValues values = new ContentValues();
+        values.put("Password", newPassword);
+        int rowsAffected = database.update("Users", values, "UserName = ?", new String[]{username});
+        return rowsAffected > 0;
+    }
+
 }

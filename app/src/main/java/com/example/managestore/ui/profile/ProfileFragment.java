@@ -63,6 +63,16 @@ public class ProfileFragment extends Fragment {
                 String addressStr = address.getText().toString();
                 String phoneStr = phone.getText().toString();
 
+                if (usernameStr.isEmpty() || accountNameStr.isEmpty() || avatarStr.isEmpty() || addressStr.isEmpty() || phoneStr.isEmpty()) {
+                    Toast.makeText(getContext(), "Please fill all fields!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!phoneStr.matches("\\d{10}")) {
+                    Toast.makeText(getContext(), "Phone number must be 10 digits!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 User updatedUser = new User(usernameStr, passwordStr, accountNameStr, avatarStr, addressStr, phoneStr, true, 1);
 
                 boolean success = userDAO.updateUser(updatedUser);

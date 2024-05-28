@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 
+import com.example.managestore.dao.UserDAO;
+import com.example.managestore.models.User;
 import com.example.managestore.ui.profile.ProfileFragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -31,10 +33,14 @@ public class MainActivity2 extends AppCompatActivity {
 
     TextView welcomeText;
     TextView userText;
+    UserDAO userDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        userDAO = new UserDAO(this);
+        userDAO.open();
 
         binding = ActivityMain2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -68,10 +74,10 @@ public class MainActivity2 extends AppCompatActivity {
         // Lấy thông tin người dùng từ SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("userSession", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "User");
+        User user = userDAO.getUserByUsername(username);
 
-        // Cập nhật TextView với thông tin người dùng
-        welcomeText.setText("Welcome back,");
-        userText.setText(username);
+        welcomeText.setText("Welcome");
+        userText.setText(user.getAccountName() +" | "+ username);
 
 
     }
@@ -88,5 +94,11 @@ public class MainActivity2 extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        userDAO.close();
     }
 }
