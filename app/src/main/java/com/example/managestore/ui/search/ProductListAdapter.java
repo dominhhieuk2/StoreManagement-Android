@@ -13,13 +13,11 @@ import com.example.managestore.R;
 public class ProductListAdapter extends BaseAdapter {
     Context context;
     String[] listProduct;
-    int[] listImages;
     LayoutInflater inflater;
 
-    public ProductListAdapter(Context ctx, String[] productList, int[] images) {
+    public ProductListAdapter(Context ctx, String[] productList) {
         this.context = ctx;
         this.listProduct = productList;
-        this.listImages = images;
         inflater = LayoutInflater.from(ctx);
     }
 
@@ -47,9 +45,9 @@ public class ProductListAdapter extends BaseAdapter {
         ImageView img = convertView.findViewById(R.id.productImg);
 
         name.setText(listProduct[position]);
-        category.setText(listProduct[position]);
-        price.setText(listProduct[position]);
-        img.setImageResource(listImages[position]);
+        category.setText("Category");
+        price.setText("$99.00");
+        img.setImageResource(R.drawable.sample_product);
 
         return convertView;
     }

@@ -18,7 +18,6 @@ public class SearchFragment extends Fragment {
 
     private FragmentSearchBinding binding;
     String productList[] = {"Product 1", "Product 2", "Product 3", "Product 4", "Product 5"};
-    int productImages[] = {R.drawable.sample_product, R.drawable.sample_product, R.drawable.sample_product, R.drawable.sample_product, R.drawable.sample_product};
     ListView listView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -29,7 +28,7 @@ public class SearchFragment extends Fragment {
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        ProductListAdapter listViewAdapter = new ProductListAdapter(root.getContext(), productList, productImages);
+        ProductListAdapter listViewAdapter = new ProductListAdapter(root.getContext(), productList);
         listView = binding.productList;
         listView.setAdapter(listViewAdapter);
 
