@@ -22,9 +22,10 @@
             android:id="@+id/productImg"
             android:layout_width="match_parent"
             android:layout_height="220dp"
-            android:scaleType="fitXY"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
+<!--        android:scaleType="fitXY"-->
         <TextView
             android:id="@+id/productName"
             android:layout_width="match_parent"
