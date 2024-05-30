@@ -8,14 +8,20 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.managestore.R;
+import com.example.managestore.models.Product;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.List;
 
 public class ProductListAdapter extends BaseAdapter {
     Context context;
-    String[] listProduct;
+    List<Product> listProduct;
     LayoutInflater inflater;
 
-    public ProductListAdapter(Context ctx, String[] productList) {
+    public ProductListAdapter(Context ctx, List<Product> productList) {
         this.context = ctx;
         this.listProduct = productList;
         inflater = LayoutInflater.from(ctx);
@@ -23,7 +29,7 @@ public class ProductListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return this.listProduct.length;
+        return this.listProduct.size();
     }
 
     @Override
@@ -44,10 +50,16 @@ public class ProductListAdapter extends BaseAdapter {
         TextView price = convertView.findViewById(R.id.productPrice);
         ImageView img = convertView.findViewById(R.id.productImg);
 
-        name.setText(listProduct[position]);
-        category.setText("Category");
-        price.setText("$99.00");
-        img.setImageResource(R.drawable.sample_product);
+        name.setText(listProduct.get(position).getProductName());
+        category.setText(listProduct.get(position).getCategoryName());
+
+        BigDecimal bigDecimal = new BigDecimal(listProduct.get(position).getProductPrice());
+        DecimalFormat formatter = new DecimalFormat("#,###,###");
+
+        price.setText(formatter.format(bigDecimal) + " Đ");
+
+        Glide.with(context).load(listProduct.get(position).getProductLink()).into(img);
+//        img.setImageResource(R.drawable.sample_product);
 
         return convertView;
     }

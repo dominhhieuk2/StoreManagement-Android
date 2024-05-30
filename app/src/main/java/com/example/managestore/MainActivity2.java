@@ -3,12 +3,16 @@ package com.example.managestore;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 
+import com.example.managestore.dao.CategoryDAO;
+import com.example.managestore.dao.ProductDAO;
 import com.example.managestore.dao.UserDAO;
+import com.example.managestore.models.Category;
 import com.example.managestore.models.User;
 import com.example.managestore.ui.profile.ProfileFragment;
 import com.google.android.material.snackbar.Snackbar;
@@ -78,8 +82,6 @@ public class MainActivity2 extends AppCompatActivity {
 
         welcomeText.setText("Welcome");
         userText.setText(user.getAccountName() +" | "+ username);
-
-
     }
 
     @Override
