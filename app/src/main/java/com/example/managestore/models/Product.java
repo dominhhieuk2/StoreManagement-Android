@@ -1,6 +1,8 @@
 package com.example.managestore.models;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     private int productID;
     private String productLink;
     private String productName;
@@ -21,7 +23,8 @@ public class Product {
         this.categoryID = categoryID;
     }
 
-    public Product(String productName, double productPrice, boolean productStatus, int productQuantity, String description, String productLink, String categoryName) {
+    public Product(int productID, String productName, double productPrice, boolean productStatus, int productQuantity, String description, String productLink, String categoryName) {
+        this.productID = productID;
         this.productName = productName;
         this.productPrice = productPrice;
         this.productStatus = productStatus;
