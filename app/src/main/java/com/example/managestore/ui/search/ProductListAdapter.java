@@ -45,6 +45,7 @@ public class ProductListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = inflater.inflate(R.layout.product_layout, null);
+
         TextView name = convertView.findViewById(R.id.productName);
         TextView category = convertView.findViewById(R.id.productCategory);
         TextView price = convertView.findViewById(R.id.productPrice);
@@ -59,7 +60,6 @@ public class ProductListAdapter extends BaseAdapter {
         price.setText(formatter.format(bigDecimal) + " Đ");
 
         Glide.with(context).load(listProduct.get(position).getProductLink()).into(img);
-//        img.setImageResource(R.drawable.sample_product);
 
         return convertView;
     }

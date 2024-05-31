@@ -55,6 +55,7 @@ public class ProductDAO {
 
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("ProductID"));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow("ProductName"));
                 double price = cursor.getDouble(cursor.getColumnIndexOrThrow("ProductPrice"));
                 int statusNumber = cursor.getInt(cursor.getColumnIndexOrThrow("ProductStatus"));
@@ -65,11 +66,39 @@ public class ProductDAO {
 
                 boolean status = statusNumber == 1;
 
-                Product product = new Product(name, price, status, quantity, description, link, categoryName);
+                Product product = new Product(id, name, price, status, quantity, description, link, categoryName);
                 productList.add(product);
                 cursor.moveToNext();
             }
         }
+
+        return productList;
+    }
+
+    public List<Product> searchProducts(String searchValue) {
+        List<Product> productList = new ArrayList<>();
+
+        Cursor cursor = database.rawQuery("select * from Product left join Categories on Product.CategoryID = Categories.CategoryID where Product.ProductName like ?", new String[] {"%"+ searchValue+ "%" });
+
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("ProductID"));
+                String name = cursor.getString(cursor.getColumnIndexOrThrow("ProductName"));
+                double price = cursor.getDouble(cursor.getColumnIndexOrThrow("ProductPrice"));
+                int statusNumber = cursor.getInt(cursor.getColumnIndexOrThrow("ProductStatus"));
+                int quantity = cursor.getInt(cursor.getColumnIndexOrThrow("ProductQuantity"));
+                String description = cursor.getString(cursor.getColumnIndexOrThrow("Description"));
+                String link = cursor.getString(cursor.getColumnIndexOrThrow("ProductLink"));
+                String categoryName = cursor.getString(cursor.getColumnIndexOrThrow("CategoryName"));
+
+                boolean status = statusNumber == 1;
+
+                Product product = new Product(id, name, price, status, quantity, description, link, categoryName);
+                productList.add(product);
+                cursor.moveToNext();
+            }
+        }
+
         return productList;
     }
 

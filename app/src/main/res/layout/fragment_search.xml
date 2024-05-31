@@ -38,7 +38,8 @@
             android:drawableEnd="@drawable/ic_menu_search"
             android:ems="10"
             android:hint="Search..."
-            android:inputType="text" />
+            android:inputType="text"
+            android:imeOptions="actionSend" />
     </LinearLayout>
 
     <LinearLayout
