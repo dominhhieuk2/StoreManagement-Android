@@ -33,16 +33,15 @@ public class CategoryDAO {
     public void insertData(String[] listCategory) {
         ContentValues values = new ContentValues();
         for (String categoryName : listCategory) {
-            values.put("categoryName", categoryName);
+            values.put("CategoryName", categoryName);
             database.insert("Categories", null, values);
         }
     }
 
     public long createCategory(Category category) {
         ContentValues values = new ContentValues();
-        values.put("categoryName", category.getCategoryName());
+        values.put("CategoryName", category.getCategoryName());
 
-        Cursor cursor = database.rawQuery("select * from Categories",null);
         return database.insert("Categories", null, values);
     }
 
