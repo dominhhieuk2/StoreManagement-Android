@@ -12,9 +12,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.managestore.dao.CartDAO;
 import com.example.managestore.dao.UserDAO;
+import com.example.managestore.models.CartItem;
 import com.example.managestore.models.User;
 
+import java.util.List;
+
 public class CartActivity extends AppCompatActivity {
+    List<CartItem> cartItemList;
     CartDAO cartDAO;
     UserDAO userDAO;
 
@@ -29,10 +33,13 @@ public class CartActivity extends AppCompatActivity {
         userDAO = new UserDAO(this);
         userDAO.open();
 
+        // get user cart item list
         SharedPreferences sharedPreferences = getSharedPreferences("userSession", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "User");
         User user = userDAO.getUserByUsername(username);
-        Log.d("check", cartDAO.getCartItems(user.getUserID()).get(0).getProductName());
+        cartItemList = cartDAO.getCartItems(user.getUserID());
+
+        Log.d("check", cartItemList.get(0).getQuantity()+"");
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.cart_layout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

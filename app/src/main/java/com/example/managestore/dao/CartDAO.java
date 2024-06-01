@@ -7,7 +7,10 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.managestore.database.DatabaseHelper;
+import com.example.managestore.models.Cart;
+import com.example.managestore.models.CartItem;
 import com.example.managestore.models.Product;
+import com.example.managestore.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,19 +33,35 @@ public class CartDAO {
 
     public void addToCart(int productId, int userId, int quantity) {
         ContentValues values = new ContentValues();
-        values.put("ProductID", productId);
-        values.put("UsersID", userId);
-        values.put("Quantity", quantity);
 
-        database.insert("Cart", null, values);
+        Cursor cursor = database.query("Cart", null, "ProductID = ? and UsersID = ?", new String[]{productId+"", userId+""}, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            Cart cart = new Cart(cursor.getInt(cursor.getColumnIndexOrThrow("CartID")),
+                                cursor.getInt(cursor.getColumnIndexOrThrow("ProductID")),
+                                cursor.getInt(cursor.getColumnIndexOrThrow("Quantity")),
+                                cursor.getInt(cursor.getColumnIndexOrThrow("UsersID")));
+
+            values.put("ProductID", productId);
+            values.put("UsersID", userId);
+            values.put("Quantity", quantity + cart.getQuantity());
+            database.update("Cart", values, "ProductID = ? and UsersID = ?", new String[]{productId+"", userId+""});
+            cursor.close();
+        }
+        else {
+            values.put("ProductID", productId);
+            values.put("UsersID", userId);
+            values.put("Quantity", quantity);
+            database.insert("Cart", null, values);
+        }
     }
 
     public void removeFromCart(int productId, int userId) {
         database.delete("Cart", "ProductID = ? and UsersID = ?", new String[]{productId+"", userId+""});
     }
 
-    public List<Product> getCartItems(int userId) {
-        List<Product> cartItems = new ArrayList<>();
+    public List<CartItem> getCartItems(int userId) {
+        List<CartItem> cartItems = new ArrayList<>();
 
         Cursor cursor = database.rawQuery("select * from Cart left join Product on Cart.ProductID = Product.ProductID left join Categories on Product.CategoryID = Categories.CategoryID where Cart.UsersID = ?",new String[]{userId+""});
         if (cursor.moveToFirst()) {
@@ -50,16 +69,12 @@ public class CartDAO {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("ProductID"));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow("ProductName"));
                 double price = cursor.getDouble(cursor.getColumnIndexOrThrow("ProductPrice"));
-                int statusNumber = cursor.getInt(cursor.getColumnIndexOrThrow("ProductStatus"));
-                int quantity = cursor.getInt(cursor.getColumnIndexOrThrow("ProductQuantity"));
-                String description = cursor.getString(cursor.getColumnIndexOrThrow("Description"));
                 String link = cursor.getString(cursor.getColumnIndexOrThrow("ProductLink"));
                 String categoryName = cursor.getString(cursor.getColumnIndexOrThrow("CategoryName"));
+                int quantity = cursor.getInt(cursor.getColumnIndexOrThrow("Quantity"));
 
-                boolean status = statusNumber == 1;
-
-                Product product = new Product(id, name, price, status, quantity, description, link, categoryName);
-                cartItems.add(product);
+                CartItem cartItem = new CartItem(id, name, price, link, categoryName, quantity);
+                cartItems.add(cartItem);
                 cursor.moveToNext();
             }
         }
