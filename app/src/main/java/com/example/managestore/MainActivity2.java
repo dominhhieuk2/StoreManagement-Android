@@ -88,6 +88,15 @@ public class MainActivity2 extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_activity2, menu);
+        MenuItem cartIcon = menu.findItem(R.id.action_cart);
+
+        cartIcon.setOnMenuItemClickListener(item -> {
+            Intent intent = new Intent(MainActivity2.this, CartActivity.class);
+            startActivity(intent);
+
+            return true;
+        });
+
         return true;
     }
 
