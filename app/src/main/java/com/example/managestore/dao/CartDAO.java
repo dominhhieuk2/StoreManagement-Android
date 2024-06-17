@@ -56,8 +56,8 @@ public class CartDAO {
         }
     }
 
-    public void removeFromCart(int productId, int userId) {
-        database.delete("Cart", "ProductID = ? and UsersID = ?", new String[]{productId+"", userId+""});
+    public void removeFromCart(int cartId) {
+        database.delete("Cart", "CartID = ?", new String[]{cartId+""});
     }
 
     public List<CartItem> getCartItems(int userId) {
@@ -66,6 +66,7 @@ public class CartDAO {
         Cursor cursor = database.rawQuery("select * from Cart left join Product on Cart.ProductID = Product.ProductID left join Categories on Product.CategoryID = Categories.CategoryID where Cart.UsersID = ?",new String[]{userId+""});
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
+                int cartID = cursor.getInt(cursor.getColumnIndexOrThrow("CartID"));
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("ProductID"));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow("ProductName"));
                 double price = cursor.getDouble(cursor.getColumnIndexOrThrow("ProductPrice"));
@@ -73,12 +74,26 @@ public class CartDAO {
                 String categoryName = cursor.getString(cursor.getColumnIndexOrThrow("CategoryName"));
                 int quantity = cursor.getInt(cursor.getColumnIndexOrThrow("Quantity"));
 
-                CartItem cartItem = new CartItem(id, name, price, link, categoryName, quantity);
+                CartItem cartItem = new CartItem(cartID, id, name, price, link, categoryName, quantity);
                 cartItems.add(cartItem);
                 cursor.moveToNext();
             }
         }
 
         return cartItems;
+    }
+
+    public void increaseQuantity(int cartId, int currentQuantity) {
+        ContentValues values = new ContentValues();
+        values.put("Quantity", currentQuantity + 1);
+
+        database.update("Cart", values, "CartID = ?", new String[]{cartId+""});
+    }
+
+    public void decreaseQuantity(int cartId, int currentQuantity) {
+        ContentValues values = new ContentValues();
+        values.put("Quantity", currentQuantity - 1);
+
+        database.update("Cart", values, "CartID = ?", new String[]{cartId+""});
     }
 }
