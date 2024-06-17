@@ -76,7 +76,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         BigDecimal bigDecimal = new BigDecimal(product.getProductPrice());
         DecimalFormat formatter = new DecimalFormat("#,###,###");
-        productPrice.setText(formatter.format(bigDecimal) + " Đ");
+        productPrice.setText(formatter.format(bigDecimal) + " VND");
 
         if(product.isProductStatus()) productStatus.setText("Status: Available");
         else productStatus.setText("Status: Not available");
@@ -89,7 +89,17 @@ public class ProductDetailActivity extends AppCompatActivity {
         User user = userDAO.getUserByUsername(username);
 
         addCartBtn.setOnClickListener(v -> {
+            if(quantityEdt.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Must specify quantity", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             int quantityValue = Integer.parseInt(quantityEdt.getText().toString());
+            if(quantityValue <= 0) {
+                Toast.makeText(this, "Invalid quantity", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             cartDAO.addToCart(product.getProductID(), user.getUserID(), quantityValue);
 
             Toast.makeText(this, "Add to cart successfully", Toast.LENGTH_SHORT).show();

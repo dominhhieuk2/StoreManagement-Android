@@ -57,7 +57,7 @@ public class ProductListAdapter extends BaseAdapter {
         BigDecimal bigDecimal = new BigDecimal(listProduct.get(position).getProductPrice());
         DecimalFormat formatter = new DecimalFormat("#,###,###");
 
-        price.setText(formatter.format(bigDecimal) + " Đ");
+        price.setText(formatter.format(bigDecimal) + " VND");
 
         Glide.with(context).load(listProduct.get(position).getProductLink()).into(img);
 
