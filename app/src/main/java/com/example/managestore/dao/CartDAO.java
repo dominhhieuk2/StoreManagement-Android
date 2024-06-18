@@ -96,4 +96,8 @@ public class CartDAO {
 
         database.update("Cart", values, "CartID = ?", new String[]{cartId+""});
     }
+
+    public void clearCart(int userId) {
+        database.delete("Cart", "UsersID = ?", new String[]{userId+""});
+    }
 }
