@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -23,8 +22,6 @@ import com.example.managestore.dao.CartDAO;
 import com.example.managestore.dao.UserDAO;
 import com.example.managestore.models.CartItem;
 import com.example.managestore.models.User;
-import com.example.managestore.ui.search.ProductListAdapter;
-import com.example.managestore.ui.search.SearchFragment;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -35,6 +32,7 @@ public class CartActivity extends AppCompatActivity {
     CartListAdapter listViewAdapter;
     LinearLayout cartEmptyFooter;
     Button browseBtn;
+    Button checkoutBtn;
     LinearLayout cartFooter;
     ListView listView;
     TextView totalPrice;
@@ -54,6 +52,7 @@ public class CartActivity extends AppCompatActivity {
         noItemsText = findViewById(R.id.noItemsText);
         cartEmptyFooter = findViewById(R.id.cartEmptyFooter);
         browseBtn = findViewById(R.id.browseBtn);
+        checkoutBtn = findViewById(R.id.checkoutBtn);
 
         cartDAO = new CartDAO(this);
         cartDAO.open();
@@ -110,6 +109,11 @@ public class CartActivity extends AppCompatActivity {
 
         browseBtn.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity2.class);
+            startActivity(intent);
+        });
+
+        checkoutBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(this, CheckoutActivity.class);
             startActivity(intent);
         });
 
