@@ -61,7 +61,7 @@ public class CartListAdapter extends BaseAdapter {
         ImageView img = convertView.findViewById(R.id.cartItemImg);
 
         TextView decreaseBtn = convertView.findViewById(R.id.decreaseQuantity);
-        TextView increaseBtn = convertView.findViewById(R.id.checkoutItemQuantity);
+        TextView increaseBtn = convertView.findViewById(R.id.increaseQuantity);
 
         name.setText(listCartItem.get(position).getProductName());
         category.setText(listCartItem.get(position).getCategoryName());
