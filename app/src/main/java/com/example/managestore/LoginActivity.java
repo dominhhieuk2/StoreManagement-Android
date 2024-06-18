@@ -91,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.apply();
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
+                        intent.putExtra("fromLogin", true);
                         startActivity(intent);
                         finish();
                     } else {
