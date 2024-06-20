@@ -1,4 +1,4 @@
-package com.example.managestore.ui.slideshow;
+package com.example.managestore.ui.location;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

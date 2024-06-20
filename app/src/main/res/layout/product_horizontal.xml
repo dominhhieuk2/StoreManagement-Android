@@ -32,12 +32,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
+            android:paddingTop="15dp"
             android:paddingRight="10dp">
 
             <TextView
                 android:id="@+id/horizontalItemName"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
                 android:gravity="center_vertical"
                 android:text="Product Name"
                 android:textSize="16sp" />
@@ -55,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="sans-serif-medium"
-                android:gravity="center_vertical"
+                android:gravity="top|center_vertical"
                 android:text="$50.00"
                 android:textColor="#673AB7"
                 android:textSize="22sp" />

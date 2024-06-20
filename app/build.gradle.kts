@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.managestore"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -51,4 +51,7 @@ dependencies {
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.paypal.checkout:android-sdk:1.1.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+    implementation("com.github.dangiashish:Google-Direction-Api:1.6")
 }

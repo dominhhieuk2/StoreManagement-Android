@@ -1,6 +1,7 @@
 package com.example.managestore.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.managestore.ProductDetailActivity;
 import com.example.managestore.R;
 import com.example.managestore.models.Product;
 
@@ -53,6 +55,12 @@ public class HorizontalListAdapter extends RecyclerView.Adapter<HorizontalListAd
         holder.price.setText(formatter.format(bigDecimal) + " VND");
 
         Glide.with(context).load(product.getProductLink()).into(holder.img);
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), ProductDetailActivity.class);
+            intent.putExtra("product", product);
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override

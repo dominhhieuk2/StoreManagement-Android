@@ -1,33 +1,38 @@
 package com.example.managestore.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.managestore.ProductDetailActivity;
+import com.example.managestore.R;
 import com.example.managestore.dao.ProductDAO;
 import com.example.managestore.databinding.FragmentHomeBinding;
 import com.example.managestore.models.Product;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     RecyclerView horizontalList;
-    ListView verticalList;
     private ProductDAO productDAO;
     HorizontalListAdapter horizontalListAdapter;
-    VerticalListAdapter verticalListAdapter;
     List<Product> productList;
+    LinearLayout verticalListContainer;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -35,7 +40,7 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         horizontalList = binding.horizontalList;
-        verticalList = binding.verticalList;
+        verticalListContainer = binding.verticalListContainer;
 
         productDAO = new ProductDAO(getActivity());
         productDAO.open();
@@ -49,8 +54,31 @@ public class HomeFragment extends Fragment {
         horizontalList.setAdapter(horizontalListAdapter);
         horizontalList.setLayoutManager(layoutManager);
 
-        verticalListAdapter = new VerticalListAdapter(root.getContext(), productList);
-        verticalList.setAdapter(verticalListAdapter);
+        for (Product product : productList) {
+            View itemView = inflater.inflate(R.layout.product_horizontal, verticalListContainer, false);
+
+            TextView name = itemView.findViewById(R.id.horizontalItemName);
+            TextView category = itemView.findViewById(R.id.horizontalItemCategory);
+            TextView price = itemView.findViewById(R.id.horizontalItemPrice);
+            ImageView img = itemView.findViewById(R.id.horizontalItemImg);
+
+            name.setText(product.getProductName());
+            category.setText(product.getCategoryName());
+
+            BigDecimal bigDecimal = new BigDecimal(product.getProductPrice());
+            DecimalFormat formatter = new DecimalFormat("#,###,###");
+            price.setText(formatter.format(bigDecimal) + " VND");
+
+            Glide.with(root.getContext()).load(product.getProductLink()).into(img);
+
+            itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                intent.putExtra("product", product);
+                startActivity(intent);
+            });
+
+            verticalListContainer.addView(itemView);
+        }
 
         return root;
     }
