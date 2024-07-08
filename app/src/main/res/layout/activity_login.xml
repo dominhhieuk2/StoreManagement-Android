@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/loginbkg"
+        android:background="@drawable/pagebkg"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -47,7 +47,7 @@
                     android:background="@drawable/custom_edittext"
                     android:drawableLeft="@drawable/ic_baseline_person_24"
                     android:drawablePadding="8dp"
-                    android:hint="Username"
+                    android:hint="Email"
                     android:padding="8dp"
                     android:textColor="@color/black"
                     android:textColorHighlight="@color/cardview_dark_background" />
@@ -75,18 +75,31 @@
                     android:text="Login"
                     android:textSize="18sp"
                     app:cornerRadius="20dp" />
+
+                <TextView
+                    android:id="@+id/forgot_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:padding="8dp"
+                    android:text="Forgot Password?"
+                    android:textColor="@color/lavender"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/signupText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:padding="8dp"
+                    android:text="Not yet registered? SignUp Now"
+                    android:textAlignment="center"
+                    android:textColor="@color/purple"
+                    android:textSize="14sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/signupText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:padding="8dp"
-            android:text="Not yet registered? SignUp Now"
-            android:textAlignment="center"
-            android:textColor="@color/purple"
-            android:textSize="14sp" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -101,7 +101,7 @@ public class MainActivity2 extends AppCompatActivity {
         welcomeText.setText("Welcome");
         userText.setText(user.getAccountName() +" | "+ username);
 
-        // check if navigating from login screen
+//         check if navigating from login screen
         boolean fromLogin = getIntent().getBooleanExtra("fromLogin", false);
         if(fromLogin) {
             List<CartItem> cartItemList = cartDAO.getCartItems(user.getUserID());
