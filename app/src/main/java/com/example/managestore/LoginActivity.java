@@ -122,7 +122,10 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("username", usernameStr);
                             editor.apply();
                             Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this, MainActivity2.class));
+
+                            Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
+                            intent.putExtra("fromLogin", true);
+                            startActivity(intent);
                             finish();
                         } else {
                             Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
