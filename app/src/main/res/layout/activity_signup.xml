@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@drawable/loginbkg"
+        android:background="@drawable/pagebkg"
         >
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                     android:background="@drawable/custom_edittext"
                     android:drawableLeft="@drawable/ic_baseline_person_24"
                     android:drawablePadding="8dp"
-                    android:hint="Username"
+                    android:hint="Email"
                     android:padding="8dp"
                     android:textColor="@color/black"
                     android:textColorHighlight="@color/cardview_dark_background"
@@ -87,18 +87,20 @@
                     android:layout_marginTop="30dp"
                     android:backgroundTint="@color/purple"
                     app:cornerRadius = "20dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Already account? Login Now"
+                    android:textSize="14sp"
+                    android:textAlignment="center"
+                    android:id="@+id/loginText"
+                    android:textColor="@color/purple"
+                    android:layout_marginBottom="20dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="Already account? Login Now"
-            android:textSize="14sp"
-            android:textAlignment="center"
-            android:id="@+id/loginText"
-            android:textColor="@color/purple"
-            android:layout_marginBottom="20dp"/>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

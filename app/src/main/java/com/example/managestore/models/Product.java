@@ -1,6 +1,8 @@
 package com.example.managestore.models;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     private int productID;
     private String productLink;
     private String productName;
@@ -9,6 +11,36 @@ public class Product {
     private int productQuantity;
     private String description;
     private int categoryID;
+    private String categoryName;
+
+    public Product(String productName, double productPrice, boolean productStatus, int productQuantity, String description, String productLink, int categoryID) {
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productStatus = productStatus;
+        this.productQuantity = productQuantity;
+        this.description = description;
+        this.productLink = productLink;
+        this.categoryID = categoryID;
+    }
+
+    public Product(int productID, String productName, double productPrice, boolean productStatus, int productQuantity, String description, String productLink, String categoryName) {
+        this.productID = productID;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productStatus = productStatus;
+        this.productQuantity = productQuantity;
+        this.description = description;
+        this.productLink = productLink;
+        this.categoryName = categoryName;
+    }
+
+    public Product(int productID, String productName, double productPrice, String productLink, String categoryName) {
+        this.productID = productID;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productLink = productLink;
+        this.categoryName = categoryName;
+    }
 
     public int getProductID() {
         return productID;
@@ -72,6 +104,10 @@ public class Product {
 
     public void setCategoryID(int categoryID) {
         this.categoryID = categoryID;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
     }
 }
 

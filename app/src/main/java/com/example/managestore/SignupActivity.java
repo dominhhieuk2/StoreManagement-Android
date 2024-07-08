@@ -16,8 +16,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.managestore.dao.UserDAO;
 import com.example.managestore.models.User;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SignupActivity extends AppCompatActivity {
+    private FirebaseAuth auth;
     EditText username;
     EditText password, confirmpassword;
     TextView loginText;
@@ -29,6 +31,8 @@ public class SignupActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_signup);
 
+        auth = FirebaseAuth.getInstance();
+        auth.setLanguageCode("vi");
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         confirmpassword = findViewById(R.id.confirmpassword);
@@ -47,8 +51,8 @@ public class SignupActivity extends AppCompatActivity {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String usernameStr = username.getText().toString();
-                String passwordStr = password.getText().toString();
+                String usernameStr = username.getText().toString().trim();
+                String passwordStr = password.getText().toString().trim();
                 String confirmPasswordStr = confirmpassword.getText().toString();
 
                 if (usernameStr.isEmpty() || passwordStr.isEmpty() || confirmPasswordStr.isEmpty()) {
@@ -56,23 +60,46 @@ public class SignupActivity extends AppCompatActivity {
                     return;
                 }
 
+                if (!isValidEmail(usernameStr)) {
+                    Toast.makeText(SignupActivity.this, "Invalid email address", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
                 if (!passwordStr.equals(confirmPasswordStr)) {
                     Toast.makeText(SignupActivity.this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                User newUser = new User(usernameStr, passwordStr, "AccountName", "Avatar", "Address", "Phone", true, 1);
-
-                long userId = userDAO.createUser(newUser);
-                if (userId != -1) {
-                    Toast.makeText(SignupActivity.this, "Signup Successful!", Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
+                //
+                if (usernameStr.isEmpty() || passwordStr.isEmpty() || confirmPasswordStr.isEmpty()) {
+                    username.setError("Please fill all fields!");
+                } else if (!passwordStr.equals(confirmPasswordStr)) {
+                    password.setError("Passwords do not match!");
                 } else {
-                    Toast.makeText(SignupActivity.this, "Signup Failed! Please try again.", Toast.LENGTH_SHORT).show();
+                    auth.createUserWithEmailAndPassword(usernameStr, passwordStr).addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            User newUser = new User(usernameStr, "password", "Nguyen Van A", "Avatar", "123 Hung Vuong, HCM", "0123456789", true, 1);
+
+                            long userId = userDAO.createUser(newUser);
+                            if (userId != -1) {
+                                Toast.makeText(SignupActivity.this, "Signup Successful!", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+                                finish();
+                            } else {
+                                Toast.makeText(SignupActivity.this, "Signup Failed! Please try again.", Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } else {
+                            Toast.makeText(SignupActivity.this, "SignUp Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
+                //
+
+
+
             }
         });
 
@@ -81,6 +108,11 @@ public class SignupActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    public static boolean isValidEmail(String email) {
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        return email.matches(emailPattern);
     }
 
     @Override

@@ -13,8 +13,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.example.managestore.R;
 import com.example.managestore.dao.UserDAO;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ChangepasswordFragment extends Fragment {
+    private FirebaseAuth auth;
 
     private EditText currentPassword;
     private EditText newPassword;
@@ -27,6 +34,8 @@ public class ChangepasswordFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_changepassword, container, false);
 
+        auth = FirebaseAuth.getInstance();
+        auth.setLanguageCode("vi");
         currentPassword = view.findViewById(R.id.currentPassword);
         newPassword = view.findViewById(R.id.newPassword);
         confirmNewPassword = view.findViewById(R.id.confirmNewPassword);
@@ -54,20 +63,47 @@ public class ChangepasswordFragment extends Fragment {
                     Toast.makeText(getActivity(), "Passwords do not match!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                FirebaseUser user = auth.getCurrentUser();
+                if (user != null && user.getEmail() != null) {
+                    AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), currentPasswordStr);
 
-                if (userDAO.checkUser(username, currentPasswordStr)) {
-                    boolean isUpdated = userDAO.updatePassword(username, newPasswordStr);
-                    if (isUpdated) {
-                        Toast.makeText(getActivity(), "Password changed successfully!", Toast.LENGTH_SHORT).show();
-                        currentPassword.setText("");
-                        newPassword.setText("");
-                        confirmNewPassword.setText("");
-                    } else {
-                        Toast.makeText(getActivity(), "Password change failed!", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(getActivity(), "Current password is incorrect!", Toast.LENGTH_SHORT).show();
+                    user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                user.updatePassword(newPasswordStr).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(getActivity(), "Password changed successfully!", Toast.LENGTH_SHORT).show();
+                                            currentPassword.setText("");
+                                            newPassword.setText("");
+                                            confirmNewPassword.setText("");
+                                        } else {
+                                            Toast.makeText(getActivity(), "Changed password failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(getActivity(), "Changed password failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
+
+//                if (userDAO.checkUser(username, currentPasswordStr)) {
+//                    boolean isUpdated = userDAO.updatePassword(username, newPasswordStr);
+//                    if (isUpdated) {
+//                        Toast.makeText(getActivity(), "Password changed successfully!", Toast.LENGTH_SHORT).show();
+//                        currentPassword.setText("");
+//                        newPassword.setText("");
+//                        confirmNewPassword.setText("");
+//                    } else {
+//                        Toast.makeText(getActivity(), "Password change failed!", Toast.LENGTH_SHORT).show();
+//                    }
+//                } else {
+//                    Toast.makeText(getActivity(), "Current password is incorrect!", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 

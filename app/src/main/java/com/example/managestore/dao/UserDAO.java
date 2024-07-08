@@ -74,6 +74,7 @@ public class UserDAO {
         Cursor cursor = database.query("Users", null, "UserName = ?", new String[]{username}, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
             User user = new User(
+                    cursor.getInt(cursor.getColumnIndexOrThrow("UsersID")),
                     cursor.getString(cursor.getColumnIndexOrThrow("UserName")),
                     cursor.getString(cursor.getColumnIndexOrThrow("Password")),
                     cursor.getString(cursor.getColumnIndexOrThrow("AccountName")),
